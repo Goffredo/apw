@@ -30,6 +30,7 @@ function pulseaudio:Create()
 
 	o.Volume = 0     -- volume of default sink
 	o.Mute = false   -- state of the mute flag of the default sink
+	o.Active = false -- state of pulseaudio
 
 	-- retreive current state from Pulseaudio
 	pulseaudio.UpdateState(o)
@@ -39,6 +40,8 @@ end
 
 function pulseaudio:UpdateState()
 	local f = io.popen(cmd .. " dump")
+	
+	self.Active = false;
 
 	-- if the cmd can't be found
 	if f == nil then
@@ -71,6 +74,7 @@ function pulseaudio:UpdateState()
 	end
 
 	self.Mute = m == "yes"
+	self.Active = true;
 
 	f:close()
 end

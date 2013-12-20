@@ -25,6 +25,8 @@ local color         = '#698f1e' -- foreground color of progessbar
 local color_bg      = '#33450f' -- background color
 local color_mute    = '#be2a15' -- foreground color when muted
 local color_bg_mute = '#532a15' -- background color when muted
+local color_not_active    = '#555555' -- foreground color when not active
+local color_bg_not_active = '#3f3f3f' -- background color when not active
 local mixer         = 'pavucontrol' -- mixer command
 
 -- End of configuration
@@ -60,8 +62,13 @@ function pulseWidget.setColor(mute)
 end
 
 local function _update()
-	pulseBar:set_value(p.Volume)
-	pulseWidget.setColor(p.Mute)
+	if p.Active then
+		pulseBar:set_value(p.Volume)
+		pulseWidget.setColor(p.Mute)
+	else
+		pulseBar:set_color(color_not_active)	
+		pulseBar:set_background_color(color_bg_not_active)	
+	end
 end
 
 function pulseWidget.SetMixer(command)
